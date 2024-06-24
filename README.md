@@ -1,2 +1,2 @@
-# parallel_programming_phd
+# Parallel Programming Phd Course
 Repository for the PhD course Parallel Programming
