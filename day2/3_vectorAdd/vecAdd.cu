@@ -20,7 +20,7 @@ __global__ void vector_add(const float *a,
 {
   // compute the global element index this thread should process
   /* insert code to calculate the index properly using blockIdx.x, blockDim.x, threadIdx.x */
-  unsigned int index = /*FIXME #4*/
+  unsigned int index = threadIdx.x + blockIdx.x*blockDim.x;
 
   // avoid accessing out of bounds elements
   if(index < n)
@@ -53,9 +53,9 @@ int main(void)
   host_array_c = (float*)malloc(num_bytes);
 
   // cudaMalloc the device arrays
-  cudaMalloc((void**)&device_array_a, /*FIXME #1*/);
-  cudaMalloc((void**)&device_array_b, /*FIXME #1*/);
-  cudaMalloc((void**)&device_array_c, /*FIXME #1*/);
+  cudaMalloc((void**)&device_array_a, num_bytes);
+  cudaMalloc((void**)&device_array_b, num_bytes);
+  cudaMalloc((void**)&device_array_c, num_bytes);
 
   // if any memory allocation failed, report an error message
   if(host_array_a == 0 || host_array_b == 0 || host_array_c == 0 ||
@@ -77,8 +77,8 @@ int main(void)
 
   // copy arrays a & b to the device memory space
   /* fix the parameters needed to copy data to the device */
-  cudaMemcpy( /* FIXME #2*/ );
-  cudaMemcpy( /* FIXME #2*/ );
+  cudaMemcpy(device_array_a, host_array_a, num_bytes, cudaMemcpyHostToDevice);
+  cudaMemcpy(device_array_b, host_array_b, num_bytes, cudaMemcpyHostToDevice);
 
   // compute c = a + b on the device
   const size_t nThreads = 256;
@@ -88,10 +88,10 @@ int main(void)
   if(num_elements % nThreads) ++nBlocks;
 
   // launch the kernel
-  vector_add<<< /*FIXME #3*/ >>>(device_array_a, device_array_b, device_array_c, num_elements);
+  vector_add<<<num_elements/nThreads,nThreads>>>(device_array_a, device_array_b, device_array_c, num_elements);
 
   // copy the result back to the host memory space
-  cudaMemcpy(/*FIXME #5 */);
+  cudaMemcpy(host_array_c, device_array_c, num_bytes, cudaMemcpyDeviceToHost);
 
   // print out the first 10 results
   for(int i = 0; i < 10; ++i)
@@ -104,9 +104,9 @@ int main(void)
   free(host_array_b);
   free(host_array_c);
 
-  cudaFree(/*FIXME6*/);
-  cudaFree(/*FIXME6*/);
-  cudaFree(/*FIXME6*/);
+  cudaFree(device_array_a);
+  cudaFree(device_array_b);
+  cudaFree(device_array_c);
 
   return 0;
 }
