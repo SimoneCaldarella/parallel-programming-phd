@@ -124,7 +124,7 @@ void runJacobi1DCUDA(int tsteps, int n, double* A, double* B, double* A_outputFr
     runJacobiCUDA_kernel <<< grid, block >>> (n/2+1, d_A0, d_B0);
 
     cudaSetDevice(1);
-    runJacobiCUDA_kernel <<< grid, block >>> (n/2+1, d_A1, d_B1)
+    runJacobiCUDA_kernel <<< grid, block >>> (n/2+1, d_A1, d_B1);
 
     cudaSetDevice(0);
     cudaDeviceSynchronize();
