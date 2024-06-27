@@ -436,6 +436,7 @@ bool runTest(int argc, char **argv, ReduceType datatype) {
 
   if (checkCmdLineFlag(argc, (const char **)argv, "kernel")) {
     whichKernel = getCmdLineArgumentInt(argc, (const char **)argv, "kernel");
+    printf("kernel %d", whichKernel)
   }
 
   if (checkCmdLineFlag(argc, (const char **)argv, "maxblocks")) {
