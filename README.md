@@ -65,7 +65,7 @@ We used a tool and tried 6 types of reduction, from the most naive one with non 
 
 ### Lab 10 - MultiGPUs
 
-I tried to implement this one for a while, but didn't fully got how to do it. The current solution is not fully working.
+I tried to implement this one for a while, but didn't fully got how to do it. I also tried to ask chatgpt to explain it, but failed. The current solution is not working.
 
 
 
