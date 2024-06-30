@@ -27,9 +27,11 @@ We run a benchmark (stream) to assess the memory bandwidth of the system. Four o
 
 We run a tool which showed the full specs of the CUDA device available in the current session
 
+
 ### Lab 2 - Hello
 
 The hello world equivalent for CUDA. We coded our first CUDA kernel and tried to change the number of threads and thread blocks to print the string "Hello World".
+
 
 ### Lab 3 - VectorAdd
 
@@ -41,9 +43,30 @@ For example we computed the correct indices using `threadIdx.x + blockIdx.x * bl
 
 We implemented two versions of the stencil problem.In the first one, we implemented the solution by accessing each RADIUS*2 + 1 variables for each element of the final vector. As this leads to redundant memory accesses, we implemented a more efficient versions that uses shared memory (which is faster than the global one). However this requires a `__syncthreads` to ensure all threads of the same block ended the task (differently from OpenMP, in CUDA barrier are not implicitly defined).
 
+
 ### Lab 5 - Bandwidth Test 
 
 Using a tool we tested how the bandwidth changed using pinned memory (better) rather than pageable memory (worse).
+
+
+## Day 3 - CUDA Intermediate
+
+### Lab 6 - VectorAdd UVM
+
+We compute vector addition between floating point numbers by having each thread computing the pairwise sum. We learn to use `cudaMalloc` and `cudaDeviceSynchronize`.
+
+### Lab 7 - MatMul [most difficult lab]
+
+We implemented matrix multiplication from scratch, from the naive way, using nested for loops to a more optimized way. In our initial matrix multiplication code, much like with previous lab, the performance was hindered by too many global memory accesses. To address this, we developed an optimized version which uses two sliding windows, each matching the size of a block. Threads within a block can load matrix sections into shared memory to compute partial dot products, which are then summed to obtain the final matrix multiplication.
+
+### Lab 9 - Reduction
+
+We used a tool and tried 6 types of reduction, from the most naive one with non contiguous threads to the most optimized one. We simply used the parameter `kernel` to set what it was the algorithm choice and then we measured the Effective Bandwidth.
+
+### Lab 10 - MultiGPUs
+
+I tried to implement this one for a while, but didn't fully got how to do it. The current solution is not fully working.
+
 
 
 
